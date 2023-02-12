@@ -1,98 +1,83 @@
-# Create a class called cart that retains items and has methods to add, remove, and show
-
-# this this is my class
-class Cart:
+class Garage():
     def __init__(self):
-        self.cart = {}
-        self.total = 0
-    #this is my method and I will be using a while True loop to ask my questions
-    def add_cart(self):
-        while True:
-            item = input("What item would you like to add to your cart (type 'quit' to stop shopping): ")
-            if item.lower() == 'quit':
-                print("Thank you for shopping with us!")
-                break
-            elif item == "remove":
-                self.remove_item()
+        self.tickets = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+        self.parking_spaces = ['A','B','C','D','E','F','G','H','I','J']
+        self.current_ticket = {}
+        self.current_parked_cars = {}
 
-            elif item == "done":
-                self.check_out()
-                break
-
-            elif item.lower() == 'show':
-                self.Show_items_in_my_cart()
-                break
-            elif item.lower()=="pay":
-                self.payment()
-                break
-
-            else:
-                item_price = eval(input(f"What is the price of your {item}: $"))
-                self.cart[item] = item_price
-
-    #this is my remove item fucntion this what I will use to remove items from my cart 
-    def remove_item(self):
-        item = input("Which item would you like to remove? ")
-        if item in self.cart:
-            del self.cart[item]
-            print(f"Your {item} has been removed from your cart.")
-            for keys, value in self.cart.items():
-                print(keys)
-    #this here is function I will be using to show the items in my cart
-    def Show_items_in_my_cart(self):
-        print("--------THIS IS ARE THE ITEMS IN YOUR CART ---------")
-        for keys, value in self.cart.items():
-            print(keys)
-        keep_shopping =input("would you like to keep shopping( type yes to continue or no to checkout? ")
-
-        if keep_shopping =="yes":
-            self.add_cart()
-        elif keep_shopping.lower() == "no":
-            print(" Thank you for show shopping with us")
-    # once I'm ready to checkout i will call this method
-    def check_out(self):
-        checkout = input("If you're ready to checkout, type 'checkout': ")
-        if checkout.lower() == "checkout":
-            for price in self.cart.values():
-                self.total += price
-            print(f"Your total cost of all items is: ${self.total}")
-
-    #Once I'm ready to pay i will call this method
-    def payment(self):
-        pay = input("How would you like to pay your balance 'we accept card or cash: ")
-        if pay == "card":
-            for price in self.cart.values():
-                self.total += price
-            print(f" your total is ${self.total}")
-            paynow = eval(input("Please pay the aacount on the screen homie: $"))
+    def park(self):
+        welcome = input("Welcome to the parking garage, would you like to enter, leave, or pay? ")
+        if welcome.lower() == "enter":
             while True:
-                if paynow != self.total:
-                    print("please pay the full amount or I will call the police and them know I have a I cought a thief")
-                    print(f" your total is ${self.total}")
-                    paynow = eval(input("Please pay the aacount on the screen homie: $"))
+                takes_ticket = input("Would you like to take a ticket (yes or no)? ")
+                if takes_ticket.lower() == "yes":
+                    num_on_parking_ticket = int(input("What is the number on the parking ticket? "))
+                    your_name = input("What is your name? ")
+                    if num_on_parking_ticket in self.tickets:
+                        self.tickets.remove(num_on_parking_ticket)
+                        self.current_parked_cars[your_name] = self.parking_spaces[0]
+                        self.parking_spaces.pop(0)
+                        print(f"Remaining tickets: {self.tickets} \nParked Cars: {self.current_parked_cars}")
+                    else:
+                        print("Invalid ticket number.")
+                else:
+                    print("Alright, you cannot park here.\nHave a nice day!")
+        elif welcome.lower() == "leave":
+            self.leave_garage()
+        elif welcome.lower() == "pay":
+            self.pay_for_parking()
 
-                elif paynow == self.total:
-                    print(f"Thank you for shopping with us here is a here is a discount for your next visit: {self.total *.20}")
-                    break
 
+
+    def pay_for_parking(self):
+        ticket_cost = 15
+        pay_ticket = input("Are you ready to leave the parking lot (yes or no)? ")
+        if pay_ticket.lower() == "yes":
+            hours = int(input("How many hours have you been here? "))
+            total = ticket_cost * hours
+            print(f"This is the cost of your ticket: {total}")
+            while True:
+                how_to_pay_ticket = input("What payment method would you like to use (card or mobile pay)? ")
+                if how_to_pay_ticket.lower() == "card" or how_to_pay_ticket.lower() == "mobile pay":
+                    amount = int(input("Input the amount that you want to pay: $"))
+                    if total == amount:
+                        print("Your has ticket has been paid and Have a great day!")
+                        break
+                    else:
+                        print(f"Your total is: {total}")
+                        print("Input the correct amount to pay: $")
+                else:
+                    print("We do not accept that payment method. Please choose a correct payment method.")
         else:
-            print("Please insert your bills one by one")
-            for price in self.cart.values():
-                self.total += price
-            print(f" your total is ${self.total}")
-            paynow = eval(input("Please pay the aacount on the screen homie: $"))
-            while True:
-                if paynow != self.total:
-                    print("please pay the full amount or I will call the police and them know I have a I cought a thief")
-                    print(f" your total is ${self.total}")
-                    paynow = eval(input("Please pay the aacount on the screen homie: $"))
+            print("Enjoy your time here.")
 
-                elif paynow == self.total:
-                    print(f"Thank you for shopping with us here is a here is a discount for your next visit: {self.total *.20}")
-                    break
+    def leave_garage(self):
+        car_leave = input("Are you ready to leave the parking lot (yes or no)? ")
+        if car_leave.lower() == "yes":
+            self.tickets.append(1)
+            self.parking_spaces.append(1)
+            name = input("what is the name of the own of the ticket: ")
+            for key,value in self.current_parked_cars.items():
+                if key == name:
+                     del self.current_parked_cars(key)
 
-# my cart.add_cart is my instance
-cart = Cart()
-cart.add_cart()
 
-# I got carried away with homework ^ _ ^
+  '''self.parking_spaces=[False for i in range(10)]
+    def leave_spot(self):
+        if self.tickets >= 0 and self.tickets < len(self.parking_spaces):
+            if self.parking_spaces[self.tickets]:
+                self.parking_spaces[self.tickets] = False
+                print("spot number", self.tickets, "is now open.")
+            else:
+                print("spot number", self.tickets, "is empty.")'''
+
+
+
+
+
+
+
+car_garage= Garage()
+car_garage.park()
+
+
