@@ -27,8 +27,6 @@ class Garage():
         elif welcome.lower() == "pay":
             self.pay_for_parking()
 
-
-
     def pay_for_parking(self):
         ticket_cost = 15
         pay_ticket = input("Are you ready to leave the parking lot (yes or no)? ")
